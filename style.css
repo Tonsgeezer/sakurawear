@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #5b1a1a;
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #5b1a1a;
+    color: white;
+}
+header img {
+    height: 50px;
+}
+nav {
+    display: flex;
+    gap: 15px;
+}
+nav a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+nav a:hover {
+    background-color: white;
+    color: #5b1a1a;
+}
+section {
+    padding: 20px;
+}
+#welcome {
+    text-align: center;
+    background-color: #5b1a1a;
+    color: white;
+    padding: 50px;
+}
+#welcome h1 {
+    font-size: 2em;
+}
+#welcome #hours {
+    margin-top: 10px;
+}
+#sale .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+#sale img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #5b1a1a;
+    color: white;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll("nav a");
+    
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            navLinks.forEach(link => link.classList.remove("active"));
+            link.classList.add("active");
+        });
+    });
+});
+nav a.active {
+    background-color: #ffcccc;
+    color: #5b1a1a;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll("nav a");
+
+    navLinks.forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const targetId = link.getAttribute("href").slice(1);
+            const targetSection = document.getElementById(targetId);
+            
+            window.scrollTo({
+                top: targetSection.offsetTop - 50, // Ajustez pour le header
+                behavior: "smooth"
+            });
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll("#sale img");
+    const modal = document.createElement("div");
+    const modalImage = document.createElement("img");
+
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    modal.style.display = "none";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.appendChild(modalImage);
+    document.body.appendChild(modal);
+
+    images.forEach(img => {
+        img.addEventListener("click", () => {
+            modalImage.src = img.src;
+            modal.style.display = "flex";
+        });
+    });
+
+    modal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+});
+#sale img {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#sale img:hover {
+    transform: scale(1.05);
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const hoursElement = document.getElementById("hours");
+    const now = new Date();
+    const day = now.getDay(); // 0: Dimanche, 6: Samedi
+    const hour = now.getHours();
+    
+    let isOpen = false;
+    if ((day >= 1 && day <= 5 && hour >= 8 && hour < 20) || 
+        (day === 0 || day === 6) && hour >= 10 && hour < 18) {
+        isOpen = true;
+    }
+
+    hoursElement.textContent += ` La boutique est actuellement ${isOpen ? "ouverte" : "fermée"}.`;
+});
